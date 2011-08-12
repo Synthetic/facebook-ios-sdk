@@ -210,8 +210,10 @@ static NSString* kSDKVersion = @"2";
 //public
 
 - (void)authorize:(NSArray *)permissions
+ withSingleSignIn:(BOOL)trySingleSignIn
          delegate:(id<FBSessionDelegate>)delegate {
   [self authorize:permissions
+ withSingleSignIn:trySingleSignIn
          delegate:delegate
        localAppId:nil];
 }
@@ -265,6 +267,7 @@ static NSString* kSDKVersion = @"2";
  *            and redirect the user to Safari.
  */
 - (void)authorize:(NSArray *)permissions
+ withSingleSignIn:(BOOL)trySingleSignIn
          delegate:(id<FBSessionDelegate>)delegate
        localAppId:(NSString *)localAppId {
   self.localAppId = localAppId;
@@ -272,7 +275,7 @@ static NSString* kSDKVersion = @"2";
 
   _sessionDelegate = delegate;
 
-  [self authorizeWithFBAppAuth:YES safariAuth:YES];
+  [self authorizeWithFBAppAuth:trySingleSignIn safariAuth:trySingleSignIn];
 }
 
 /**

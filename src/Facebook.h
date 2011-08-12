@@ -45,9 +45,11 @@
 - (id)initWithAppId:(NSString *)app_id;
 
 - (void)authorize:(NSArray *)permissions
+ withSingleSignIn:(BOOL)trySingleSignIn
          delegate:(id<FBSessionDelegate>)delegate;
 
 - (void)authorize:(NSArray *)permissions
+ withSingleSignIn:(BOOL)trySingleSignIn
          delegate:(id<FBSessionDelegate>)delegate
        localAppId:(NSString *)localAppId;
 
