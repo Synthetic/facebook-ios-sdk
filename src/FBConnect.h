@@ -14,9 +14,20 @@
  * limitations under the License.
  */
 
+#ifdef FACEBOOK_IOS_SDK
 
 #include "Facebook.h"
 #include "FBDialog.h"
 #include "FBLoginDialog.h"
 #include "FBRequest.h"
-#include "SBJSON.h"
+#include "JSON/SBJSON.h"
+
+#else
+
+#import <Facebook.h>
+#import <FBDialog.h>
+#import <FBLoginDialog.h>
+#import <FBRequest.h>
+#import <JSON/SBJSON.h>
+
+#endif

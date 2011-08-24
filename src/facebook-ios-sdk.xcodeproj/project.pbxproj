@@ -250,6 +250,7 @@
 				GCC_PREFIX_HEADER = facebook_ios_sdk_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = "-DFACEBOOK_IOS_SDK";
 				PRODUCT_NAME = facebook_ios_sdk;
 			};
 			name = Debug;
@@ -265,6 +266,7 @@
 				GCC_PREFIX_HEADER = facebook_ios_sdk_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = "-DFACEBOOK_IOS_SDK";
 				PRODUCT_NAME = facebook_ios_sdk;
 			};
 			name = Release;
