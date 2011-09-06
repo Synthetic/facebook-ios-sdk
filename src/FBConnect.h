@@ -20,7 +20,7 @@
 #include "FBDialog.h"
 #include "FBLoginDialog.h"
 #include "FBRequest.h"
-#include "JSON/SBJSON.h"
+#include "JSON/JSON.h"
 
 #else
 
@@ -28,6 +28,6 @@
 #import <FBDialog.h>
 #import <FBLoginDialog.h>
 #import <FBRequest.h>
-#import <JSON/SBJSON.h>
+#import <JSON/JSON.h>
 
 #endif
