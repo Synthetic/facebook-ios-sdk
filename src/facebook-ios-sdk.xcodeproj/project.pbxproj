@@ -252,6 +252,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = "-DFACEBOOK_IOS_SDK";
 				PRODUCT_NAME = facebook_ios_sdk;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -268,6 +269,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = "-DFACEBOOK_IOS_SDK";
 				PRODUCT_NAME = facebook_ios_sdk;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
