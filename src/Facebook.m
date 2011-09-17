@@ -210,6 +210,11 @@ static NSString* kSDKVersion = @"2";
 //public
 
 - (void)authorize:(NSArray *)permissions
+         delegate:(id<FBSessionDelegate>)delegate {
+	[self authorize:permissions withSingleSignIn:YES delegate:delegate];
+}
+
+- (void)authorize:(NSArray *)permissions
  withSingleSignIn:(BOOL)trySingleSignIn
          delegate:(id<FBSessionDelegate>)delegate {
   [self authorize:permissions
