@@ -333,6 +333,12 @@ static const NSTimeInterval kTimeoutInterval = 180.0;
   }
 }
 
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+	if (_delegate && [_delegate respondsToSelector:@selector(request:didSendData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
+		[_delegate request:self didSendData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+	}
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
   [_responseText appendData:data];
 }

@@ -112,5 +112,12 @@
  */
 - (void)request:(FBRequest *)request didLoadRawResponse:(NSData *)data;
 
+/**
+ * Called when a request receives data.
+ *
+ * Useful for implementing progress bars during photo uploads.
+ */
+- (void)request:(FBRequest *)request didSendData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
+
 @end
 
