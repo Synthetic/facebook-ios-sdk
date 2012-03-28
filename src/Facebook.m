@@ -227,13 +227,17 @@ static NSString* kSDKVersion = @"2";
  */
 - (NSDictionary*)parseURLParams:(NSString *)query {
 	NSArray *pairs = [query componentsSeparatedByString:@"&"];
-	NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
+	NSMutableDictionary *params = [NSMutableDictionary dictionary];
 	for (NSString *pair in pairs) {
 		NSArray *kv = [pair componentsSeparatedByString:@"="];
-		NSString *val =
-    [[kv objectAtIndex:1]
-     stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
+		if (!kv || kv.count == 0) {
+			continue;
+		}
+		
+		id val = [NSNull null];
+		if (kv.count >= 2) {
+			[[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		}
 		[params setObject:val forKey:[kv objectAtIndex:0]];
 	}
   return params;
