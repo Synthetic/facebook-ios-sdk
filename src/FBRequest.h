@@ -280,6 +280,25 @@ typedef NSUInteger FBRequestState __attribute__((deprecated));
 - (FBRequestConnection*)startWithCompletionHandler:(FBRequestHandler)handler;
 
 /*!
+ @method
+ 
+ @abstract
+ Starts a connection to the Facebook API.
+ 
+ @discussion
+ This is used to start an API call to Facebook and call the block when the
+ request completes with a success, error, or cancel. This method also allows
+ specifying a progress handling block which is called to show progress as
+ data is sent during the request.
+ 
+ @param progressHandler  The handler block to call as the request upload progresses.
+ 
+ @param handler   The handler block to call when the request completes with a success, error, or cancel action.
+ */
+- (FBRequestConnection*)startWithProgressHandler:(FBRequestProgressHandler)progressHandler
+							   completionHandler:(FBRequestHandler)handler;
+
+/*!
  @methodgroup FBRequestConnection start methods
 
  @abstract

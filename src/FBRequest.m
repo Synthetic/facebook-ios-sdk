@@ -143,6 +143,14 @@ static NSString *const kPostHTTPMethod = @"POST";
     return connection;
 }
 
+- (FBRequestConnection*)startWithProgressHandler:(FBRequestProgressHandler)progressHandler
+                               completionHandler:(FBRequestHandler)handler {
+    FBRequestConnection *connection = [[[FBRequestConnection alloc] init] autorelease];
+    [connection addRequest:self progressHandler:progressHandler completionHandler:handler batchEntryName:nil];
+    [connection start];
+    return connection;
+}
+
 + (FBRequest*)requestForMe {
     return [[[FBRequest alloc] initWithSession:[FBSession activeSessionIfOpen]
                                      graphPath:@"me"]

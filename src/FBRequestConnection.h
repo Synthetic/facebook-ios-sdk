@@ -58,6 +58,27 @@ typedef void (^FBRequestHandler)(FBRequestConnection *connection,
                                  NSError *error);
 
 /*!
+ @typedef FBRequestProgressHandler
+ 
+ @abstract
+ A block that is passed to certain `FBRequestConnection` constructors to be called
+ as an upload progresses (of a photo, for example).
+ 
+ @discussion
+ Pass a block of this type when using methods such as `startForUploadPhoto`. This
+ block will be called as data sending progresses. This is typically used to show
+ a photo upload progress indicator in your app's UI during a photo upload.
+ 
+ @param connection      The `FBRequestConnection` that sent the request.
+ 
+ @param progress        A float value between 0.0 and 1.0, indicating the upload
+ progress of this request connection.
+ 
+ */
+typedef void (^FBRequestProgressHandler)(FBRequestConnection *connection,
+                                         float progress);
+
+/*!
  @class FBRequestConnection
 
  @abstract
@@ -169,14 +190,17 @@ typedef void (^FBRequestHandler)(FBRequestConnection *connection,
 
  @param request         A request to be included in the round-trip when start is called.
 
+ @param progressHandler A handler to call as data is sent during the request.
+
  @param handler         A handler to call back when the round-trip completes or times out.
- 
+
  @param name            An optional name for this request.  This can be used to feed
  the results of one request to the input of another <FBRequest> in the same 
  `FBRequestConnection` as described in 
  [Graph API Batch Requests]( https://developers.facebook.com/docs/reference/api/batch/ ). 
 */
 - (void)addRequest:(FBRequest*)request
+   progressHandler:(FBRequestProgressHandler)progressHandler
  completionHandler:(FBRequestHandler)handler
     batchEntryName:(NSString*)name;
 
@@ -260,9 +284,11 @@ typedef void (^FBRequestHandler)(FBRequestConnection *connection,
  uses the active session represented by `[FBSession activeSession]`.
   
  @param photo            A `UIImage` for the photo to upload.
+ @param progressHandler  The handler block to call as the request upload progresses.
  @param handler          The handler block to call when the request completes with a success, error, or cancel action.
  */
 + (FBRequestConnection*)startForUploadPhoto:(UIImage *)photo
+                            progressHandler:(FBRequestProgressHandler)progressHandler
                           completionHandler:(FBRequestHandler)handler;
 
 /*!
@@ -379,11 +405,14 @@ typedef void (^FBRequestHandler)(FBRequestConnection *connection,
  
  @param HTTPMethod       The HTTP method to use for the request. A nil value implies a GET.
  
+ @param progressHandler  The handler block to call as the request upload progresses.
+ 
  @param handler          The handler block to call when the request completes with a success, error, or cancel action.
  */
 + (FBRequestConnection*)startWithGraphPath:(NSString*)graphPath
                                 parameters:(NSDictionary*)parameters
                                 HTTPMethod:(NSString*)HTTPMethod
+                           progressHandler:(FBRequestProgressHandler)progressHandler
                          completionHandler:(FBRequestHandler)handler;
 
 @end

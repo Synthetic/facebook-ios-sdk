@@ -22,6 +22,11 @@ typedef void (^FBURLConnectionHandler)(FBURLConnection *connection,
                                        NSURLResponse *response,
                                        NSData *responseData);
 
+typedef void(^FBURLConnectionProgressHandler)(FBURLConnection *connection,
+                                              NSInteger bytesWritten,
+                                              NSInteger totalBytesWritten,
+                                              NSInteger totalBytesExpectedToWrite);
+
 @interface FBURLConnection : NSObject
 
 - (FBURLConnection *)initWithURL:(NSURL *)url
@@ -30,6 +35,11 @@ typedef void (^FBURLConnectionHandler)(FBURLConnection *connection,
 - (FBURLConnection *)initWithRequest:(NSURLRequest *)request
                skipRoundTripIfCached:(BOOL)skipRoundtripIfCached
                    completionHandler:(FBURLConnectionHandler)handler;
+
+- (FBURLConnection *)initWithRequest:(NSURLRequest *)request
+           skipRoundTripIfCached:(BOOL)skipRoundtripIfCached
+                 progressHandler:(FBURLConnectionProgressHandler)progressHandler
+               completionHandler:(FBURLConnectionHandler)handler;
 
 - (void)cancel;
 
