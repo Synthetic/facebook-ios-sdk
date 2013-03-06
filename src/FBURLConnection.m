@@ -58,8 +58,7 @@ static NSArray* _cdnHosts;
 
 #pragma mark - Lifecycle
 
-+ (void)initialize
-{
++ (void)initialize {
     if (_cdnHosts == nil) {
         _cdnHosts = [[NSArray arrayWithObjects:
             @"akamaihd.net", 
@@ -69,8 +68,7 @@ static NSArray* _cdnHosts;
 }
 
 - (FBURLConnection *)initWithURL:(NSURL *)url
-               completionHandler:(FBURLConnectionHandler)handler
-{
+               completionHandler:(FBURLConnectionHandler)handler {
     NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
     return [self initWithRequest:request
            skipRoundTripIfCached:YES
@@ -79,8 +77,7 @@ static NSArray* _cdnHosts;
 
 - (FBURLConnection *)initWithRequest:(NSURLRequest *)request
                skipRoundTripIfCached:(BOOL)skipRoundtripIfCached
-                   completionHandler:(FBURLConnectionHandler)handler
-{
+                   completionHandler:(FBURLConnectionHandler)handler {
     return [self initWithRequest:request
            skipRoundTripIfCached:skipRoundtripIfCached
                  progressHandler:nil
@@ -90,8 +87,7 @@ static NSArray* _cdnHosts;
 - (FBURLConnection *)initWithRequest:(NSURLRequest *)request
                skipRoundTripIfCached:(BOOL)skipRoundtripIfCached
                      progressHandler:(FBURLConnectionProgressHandler)progressHandler
-                   completionHandler:(FBURLConnectionHandler)handler
-{
+                   completionHandler:(FBURLConnectionHandler)handler {
     if (self = [super init]) {
         self.skipRoundtripIfCached = skipRoundtripIfCached;
         
@@ -137,12 +133,7 @@ static NSArray* _cdnHosts;
 - (void)invokeHandler:(FBURLConnectionHandler)handler 
                 error:(NSError *)error 
              response:(NSURLResponse *)response 
-         responseData:(NSData *)responseData 
-{
-    if (self.handler == nil) {
-        return;
-    }
-
+         responseData:(NSData *)responseData {
     NSString *logEntry;
     
     if (error) {
@@ -173,12 +164,13 @@ static NSArray* _cdnHosts;
     
     [FBLogger singleShotLogEntry:FBLoggingBehaviorFBURLConnections
                         logEntry:logEntry]; 
-                                 
-    handler(self, error, response, responseData);
+    
+    if (handler) {
+        handler(self, error, response, responseData);
+    }
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [_response release];
     [_connection release];
     [_data release];
@@ -187,8 +179,7 @@ static NSArray* _cdnHosts;
     [super dealloc];
 }
 
-- (void)cancel
-{
+- (void)cancel {
     [self.connection cancel];
     if (self.handler == nil) {
         return;
@@ -214,15 +205,13 @@ static NSArray* _cdnHosts;
 }
 
 - (void)connection:(NSURLConnection *)connection
-didReceiveResponse:(NSURLResponse *)response
-{
+didReceiveResponse:(NSURLResponse *)response {
     self.response = response;
     [self.data setLength:0];
 }
 
 - (void)connection:(NSURLResponse *)connection
-    didReceiveData:(NSData *)data
-{
+    didReceiveData:(NSData *)data {
     [self.data appendData:data];
 }
 
@@ -238,8 +227,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 }
 
 - (void)connection:(NSURLConnection *)connection
-  didFailWithError:(NSError *)error
-{
+  didFailWithError:(NSError *)error {
     @try {
         [self invokeHandler:self.handler error:error response:nil responseData:nil];
     } @finally {
@@ -247,8 +235,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     }
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     NSURL* dataURL = self.response.URL;
     if ([self isCDNURL:dataURL]) {
         // Cache this data
@@ -264,8 +251,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 
 -(NSURLRequest *)connection:(NSURLConnection *)connection
             willSendRequest:(NSURLRequest *)request
-           redirectResponse:(NSURLResponse *)redirectResponse
-{
+           redirectResponse:(NSURLResponse *)redirectResponse {
     if (redirectResponse && self.skipRoundtripIfCached) {
         NSURL* redirectURL = request.URL;
         
@@ -293,8 +279,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     return request;
 }
 
-- (BOOL)isCDNURL:(NSURL *)url
-{
+- (BOOL)isCDNURL:(NSURL *)url {
     NSString* urlHost = url.host;
     for (NSString* host in _cdnHosts) {
         if ([urlHost hasSuffix:host]) {
